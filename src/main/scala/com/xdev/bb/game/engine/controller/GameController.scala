@@ -1,6 +1,6 @@
-package com.xdev.bb.game.controller
+package com.xdev.bb.game.engine.controller
 
-import com.xdev.bb.game.view.View
+import com.xdev.bb.game.engine.view.View
 
 /**
  * Created by xdev 18.08.11 at 1:03

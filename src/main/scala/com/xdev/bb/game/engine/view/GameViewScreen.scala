@@ -1,10 +1,10 @@
-package com.xdev.bb.game.view
+package com.xdev.bb.game.engine.view
 
-import com.xdev.bb.game.controller.GameController
-import collection.mutable.ArrayBuffer
+import com.xdev.bb.game.engine.controller.GameController
 import java.awt.image.BufferStrategy
-import java.awt.{Graphics2D, Color, Canvas}
 import java.awt.event._
+import java.awt.{RenderingHints, Graphics2D, Color, Canvas}
+import com.xdev.bb.game.engine.utils.{Timer, FPSCounter}
 
 /**
  * Created by xdev 18.08.11 at 0:52
@@ -17,22 +17,28 @@ class GameViewScreen(controller: GameController) extends Canvas {
   addKeyListener(KeyboardProcessor)
 
   private object Loop extends Runnable {
-    private var lastLoopTime = 1L
+
     override def run() {
+      var lastLoopTime = System.currentTimeMillis
       while(true){
         val loopTime = lastLoopTime - System.currentTimeMillis
+        Timer.sync(60)
+
+        FPSCounter.update()
         if(controller.renderView().isDefined) {
            val view: View = controller.renderView().get
-           view.update(loopTime / 1000)
+           view.update(loopTime)
 
-           val strategy: BufferStrategy = getBufferStrategy()
+           val strategy: BufferStrategy = getBufferStrategy
            val graphics : Graphics2D = strategy.getDrawGraphics.asInstanceOf[Graphics2D]
-           view.render(graphics)
+
+           val size = getSize
+           view.render(graphics, size.getWidth, size.getHeight)
+           graphics.drawString("FPS : " + FPSCounter.getFPS + " delta : " + loopTime, 5, (size.getHeight - 5.0f).toFloat)
 
            strategy.show()
         }
         lastLoopTime = System.currentTimeMillis
-        Thread.sleep(10)
       }
     }
   }
@@ -64,5 +70,4 @@ class GameViewScreen(controller: GameController) extends Canvas {
       }
     }
   }
-
 }

@@ -1,6 +1,6 @@
 package com.xdev.bb.game.bubbles
 
-import com.xdev.bb.game.ui.GameWindow
+import com.xdev.bb.game.engine.ui.GameWindow
 import controller.BubbleBreakersController
 import java.awt.Dimension
 

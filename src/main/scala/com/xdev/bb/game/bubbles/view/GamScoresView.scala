@@ -1,6 +1,6 @@
 package com.xdev.bb.game.bubbles.view
 
-import com.xdev.bb.game.view.View
+import com.xdev.bb.game.engine.view.View
 import java.awt.Graphics2D
 import java.awt.event.{MouseEvent, KeyEvent}
 
@@ -10,7 +10,7 @@ import java.awt.event.{MouseEvent, KeyEvent}
 
 object GamScoresView extends View {
     def update(delta: Long) = null
-    def render(g: Graphics2D) = {
+    def render(g: Graphics2D, w: Double, h: Double) = {
 
     }
 

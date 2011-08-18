@@ -1,4 +1,4 @@
-package com.xdev.bb.game.view
+package com.xdev.bb.game.engine.view
 
 import java.awt.Graphics2D
 import java.awt.event.{KeyEvent, MouseEvent}
@@ -10,7 +10,7 @@ import java.awt.event.{KeyEvent, MouseEvent}
 trait View {
 
   def update(delta: Long)
-  def render(g: Graphics2D)
+  def render(g: Graphics2D, w: Double, h: Double)
 
   def mouseMoved(e: MouseEvent)
   def mouseClicked(e: MouseEvent)

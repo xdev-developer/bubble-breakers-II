@@ -1,6 +1,6 @@
 package com.xdev.bb.game.bubbles.view
 
-import com.xdev.bb.game.view.View
+import com.xdev.bb.game.engine.view.View
 import java.awt.Graphics2D
 import java.awt.event.{MouseEvent, KeyEvent}
 import com.xdev.bb.game.bubbles.controller.BubbleBreakersController
@@ -14,8 +14,8 @@ object GameRunView extends View {
 
     def update(delta: Long) = null
 
-    def render(g: Graphics2D) = {
-       g.clearRect(0, 0, 800, 600)
+    def render(g: Graphics2D, w: Double, h: Double) = {
+       g.clearRect(0, 0, w.toInt, h.toInt)
        g.drawOval(10, 10, 30, 30)
     }
 

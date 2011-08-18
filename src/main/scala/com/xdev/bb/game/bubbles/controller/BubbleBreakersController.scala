@@ -1,7 +1,7 @@
 package com.xdev.bb.game.bubbles.controller
 
-import com.xdev.bb.game.controller.GameController
-import com.xdev.bb.game.view.View
+import com.xdev.bb.game.engine.controller.GameController
+import com.xdev.bb.game.engine.view.View
 import com.xdev.bb.game.bubbles.GameState
 import com.xdev.bb.game.bubbles.view.{GamScoresView, GameMenuView, GameRunView}
 
