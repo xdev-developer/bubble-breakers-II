@@ -1,6 +1,6 @@
 package com.xdev.bb.game.engine.ui
 
-import com.xdev.bb.game.engine.view.GameViewScreen
+import com.xdev.bb.game.engine.view.GameLoop
 import javax.swing.{BorderFactory, JPanel, JFrame}
 import java.awt.{Dimension, BorderLayout}
 import com.xdev.bb.game.engine.controller.GameController
@@ -11,7 +11,7 @@ import com.xdev.bb.game.engine.controller.GameController
 
 class GameWindow(controller: GameController) extends JFrame{
 
-  val screenView = new GameViewScreen(controller)
+  val screenView = new GameLoop(controller)
 
   def runGame() {
     screenView.run()

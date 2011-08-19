@@ -7,10 +7,11 @@ import java.awt.event.{KeyEvent, MouseEvent}
  * Created by xdev 18.08.11 at 1:13
  */
 
-trait View {
-
+abstract class View {
+  var isInitialized: Boolean = false
+  def init(g: Graphics2D, size: (Int, Int))
   def update(delta: Long)
-  def render(g: Graphics2D, w: Double, h: Double)
+  def render(g: Graphics2D, size: (Int, Int))
 
   def mouseMoved(e: MouseEvent)
   def mouseClicked(e: MouseEvent)

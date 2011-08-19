@@ -12,10 +12,11 @@ import com.xdev.bb.game.bubbles.GameState
 
 object GameRunView extends View {
 
+    def init(g: Graphics2D, size: (Int, Int)) = null
+
     def update(delta: Long) = null
 
-    def render(g: Graphics2D, w: Double, h: Double) = {
-       g.clearRect(0, 0, w.toInt, h.toInt)
+    def render(g: Graphics2D, size: (Int, Int)) = {
        g.drawOval(10, 10, 30, 30)
     }
 

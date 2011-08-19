@@ -21,4 +21,8 @@ object BubbleBreakersController extends GameController {
       case _ => None
     }
   }
+
+  def newGame() {
+    gameState = GameState.GAME_RUN
+  }
 }

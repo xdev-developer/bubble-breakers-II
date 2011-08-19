@@ -1,11 +1,9 @@
 package com.xdev.bb.game.bubbles.view
 
 import com.xdev.bb.game.engine.view.View
-import java.awt.Graphics2D
 import java.awt.event.{MouseEvent, KeyEvent}
-import com.xdev.bb.game.bubbles.controller.BubbleBreakersController
-import com.xdev.bb.game.bubbles.{Configuration, GameState}
-import com.xdev.bb.game.engine.utils.FPSCounter
+import java.awt.Graphics2D
+import com.xdev.bb.game.engine.ui.menu.{MenuItem, MenuBar}
 
 /**
  * Created by xdev 18.08.11 at 3:16
@@ -13,30 +11,17 @@ import com.xdev.bb.game.engine.utils.FPSCounter
 
 object GameMenuView extends View {
 
-    def update(delta: Long) = null
+  private val newGame = new MenuItem("New Game", () => {println("NewGame")})
+  private val continueGame = new MenuItem("Continue Game", () => {println("Continue Game")})
+  private val restartGame = new MenuItem("Restart Game", () => {println("Restart Game")})
+  private val exitGame = new MenuItem("Exit Game", () => {println("Exit Game")})
 
-    def render(g: Graphics2D, w: Double, h: Double) = {
-      g.clearRect(0, 0, w.toInt, h.toInt)
-      MenuBar.menus.foreach(_.render(g))
-    }
+  private val menuBar = new MenuBar(List(newGame, continueGame, restartGame, exitGame))
 
-    def keyPressed(e: KeyEvent) = null
-
-    def mouseClicked(e: MouseEvent) = {
-      BubbleBreakersController.gameState = GameState.GAME_RUN
-    }
-
-    def mouseMoved(e: MouseEvent) = null
-
-  object MenuBar {
-     val menus = List(
-       new MenuItem("Hello", () => {println("hello")})
-    )
-  }
-
-  class MenuItem(text: String, action: () => Unit){
-    def render(g: Graphics2D) {
-       g.drawString(text, 10, 10)
-    }
-  }
+  def render(g: Graphics2D, size: (Int, Int)) {menuBar.render(g, size)}
+  def mouseClicked(e: MouseEvent) { menuBar.processMouseClick(e)}
+  def mouseMoved(e: MouseEvent) { menuBar.processMouseMove(e)}
+  def keyPressed(e: KeyEvent) {}
+  def init(g: Graphics2D, size: (Int, Int)) {}
+  def update(delta: Long) {}
 }

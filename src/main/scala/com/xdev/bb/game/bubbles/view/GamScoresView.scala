@@ -9,14 +9,10 @@ import java.awt.event.{MouseEvent, KeyEvent}
  */
 
 object GamScoresView extends View {
-    def update(delta: Long) = null
-    def render(g: Graphics2D, w: Double, h: Double) = {
-
-    }
-
-    def keyPressed(e: KeyEvent) = null
-
-    def mouseClicked(e: MouseEvent) = null
-
-    def mouseMoved(e: MouseEvent) = null
+  def init(g: Graphics2D, size: (Int, Int)) = null
+  def update(delta: Long) = null
+  def render(g: Graphics2D, size: (Int, Int)) = {    }
+  def keyPressed(e: KeyEvent) = null
+  def mouseClicked(e: MouseEvent) = null
+  def mouseMoved(e: MouseEvent) = null
   }
