@@ -1,4 +1,4 @@
-package com.xdev.bb.game.bubbles.view
+package com.xdev.bb.game.bubbles.listener
 
 import com.xdev.bb.game.engine.listener.GameListener
 import java.awt.event.{MouseEvent, KeyEvent}

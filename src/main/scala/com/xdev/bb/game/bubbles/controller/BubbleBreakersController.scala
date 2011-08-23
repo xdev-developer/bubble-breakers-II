@@ -3,7 +3,7 @@ package com.xdev.bb.game.bubbles.controller
 import com.xdev.bb.game.engine.controller.GameController
 import com.xdev.bb.game.engine.listener.GameListener
 import com.xdev.bb.game.bubbles.GameState
-import com.xdev.bb.game.bubbles.view.{GamScoresListener, GameMenuListener, GameRunListener}
+import com.xdev.bb.game.bubbles.listener.{GamScoresListener, GameMenuListener, GameRunListener}
 import com.xdev.bb.game.bubbles.entity.Bubble
 
 /**
