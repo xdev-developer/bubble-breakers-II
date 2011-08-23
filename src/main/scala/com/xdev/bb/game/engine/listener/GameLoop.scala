@@ -1,4 +1,4 @@
-package com.xdev.bb.game.engine.view
+package com.xdev.bb.game.engine.listener
 
 import com.xdev.bb.game.engine.controller.GameController
 import java.awt.image.BufferStrategy
@@ -25,14 +25,14 @@ class GameLoop(controller: GameController) extends Canvas {
 
         FPSCounter.update()
         //Render
-        if(controller.renderView().isDefined) {
+        if(controller.gameListener().isDefined) {
           val strategy: BufferStrategy = getBufferStrategy
           val graphics : Graphics2D = strategy.getDrawGraphics.asInstanceOf[Graphics2D]
 
           val width: Int = getSize.getWidth.toInt
           val height: Int = getSize.getHeight.toInt
 
-          val view: View = controller.renderView().get
+          val view: GameListener = controller.gameListener().get
           if(!view.isInitialized){
             view.init(graphics, (width, height))
             view.isInitialized = true
@@ -63,25 +63,25 @@ class GameLoop(controller: GameController) extends Canvas {
 
   object MouseProcessor extends MouseAdapter with MouseMotionListener {
     override def mouseClicked(e: MouseEvent) {
-      if(controller.renderView().isDefined){
-        if(controller.renderView().get.isInitialized)
-          controller.renderView().get.mouseClicked(e)
+      if(controller.gameListener().isDefined){
+        if(controller.gameListener().get.isInitialized)
+          controller.gameListener().get.mouseClicked(e)
       }
     }
 
     override def mouseMoved(e: MouseEvent) {
-      if(controller.renderView().isDefined){
-        if(controller.renderView().get.isInitialized)
-          controller.renderView().get.mouseMoved(e)
+      if(controller.gameListener().isDefined){
+        if(controller.gameListener().get.isInitialized)
+          controller.gameListener().get.mouseMoved(e)
       }
     }
   }
 
   object KeyboardProcessor extends KeyAdapter {
     override def keyPressed(e: KeyEvent){
-      if(controller.renderView().isDefined){
-        if(controller.renderView().get.isInitialized)
-          controller.renderView().get.keyPressed(e)
+      if(controller.gameListener().isDefined){
+        if(controller.gameListener().get.isInitialized)
+          controller.gameListener().get.keyPressed(e)
       }
     }
   }

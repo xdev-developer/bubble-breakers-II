@@ -8,4 +8,5 @@ object GameState {
       val GAME_RUN: Int = 1
       val GAME_MENU: Int = 2
       val GAME_SCORES: Int = 3
+      val GAME_LOADING: Int = 4
 }

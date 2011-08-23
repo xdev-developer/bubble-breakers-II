@@ -1,4 +1,4 @@
-package com.xdev.bb.game.engine.view
+package com.xdev.bb.game.engine.listener
 
 import java.awt.Graphics2D
 import java.awt.event.{KeyEvent, MouseEvent}
@@ -7,7 +7,7 @@ import java.awt.event.{KeyEvent, MouseEvent}
  * Created by xdev 18.08.11 at 1:13
  */
 
-abstract class View {
+abstract class GameListener {
   var isInitialized: Boolean = false
   def init(g: Graphics2D, size: (Int, Int))
   def update(delta: Long)

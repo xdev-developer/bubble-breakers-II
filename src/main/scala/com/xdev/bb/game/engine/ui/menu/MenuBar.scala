@@ -14,11 +14,11 @@ class MenuBar(val menus: List[MenuItem], val y: Int = 100, val yPadding: Int = 5
 
   private def initMenuItems(g: Graphics2D, containerSize: (Int, Int)){
     //Calculate menu item Y position
-    val size: (Int, Int) = GameUtils.getStringSize("Simple Text", font, g)
+    val (sw, sh) = GameUtils.getStringSize("Simple Text", font, g)
     val m: List[(MenuItem, Int)] = menus.zipWithIndex
     for((menu, index) <- m){
       menu.font = font
-      menu.y = (y + (index * (size._2 + yPadding)))
+      menu.y = (y + (index * (sh + yPadding)))
     }
   }
 
