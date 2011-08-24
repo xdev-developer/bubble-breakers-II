@@ -14,15 +14,14 @@ class GameLoop(controller: GameController) extends Canvas {
 
   private object Loop extends Runnable {
 
-    val MAX_FPS = 60
+    val MAX_FPS = 75
     val SHOW_FPS = true
 
     override def run() {
       var lastLoopTime = System.currentTimeMillis
       while(true){
-        val loopTime = lastLoopTime - System.currentTimeMillis
-        Timer.sync(MAX_FPS)
-
+        val loopTime: Double = System.currentTimeMillis - lastLoopTime
+        lastLoopTime = System.currentTimeMillis
         FPSCounter.update()
         //Render
         if(controller.gameListener().isDefined) {
@@ -44,10 +43,9 @@ class GameLoop(controller: GameController) extends Canvas {
           if(SHOW_FPS){
             graphics.drawString("FPS : " + FPSCounter.getFPS + " delta : " + loopTime, 5, (height - 5.0f).toFloat)
           }
-
           strategy.show()
         }
-        lastLoopTime = System.currentTimeMillis
+        Timer.sync(MAX_FPS)
       }
     }
   }

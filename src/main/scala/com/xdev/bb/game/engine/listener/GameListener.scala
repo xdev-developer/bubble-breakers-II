@@ -10,7 +10,7 @@ import java.awt.event.{KeyEvent, MouseEvent}
 abstract class GameListener {
   var isInitialized: Boolean = false
   def init(g: Graphics2D, size: (Int, Int))
-  def update(delta: Long)
+  def update(delta: Double)
   def render(g: Graphics2D, size: (Int, Int))
 
   def mouseMoved(e: MouseEvent)

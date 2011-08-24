@@ -26,5 +26,5 @@ object GameMenuListener extends GameListener {
     if (e.getKeyCode == KeyEvent.VK_ESCAPE) BubbleBreakersController.exitGame()
   }
   def init(g: Graphics2D, size: (Int, Int)) {}
-  def update(delta: Long) {}
+  def update(delta: Double) {}
 }

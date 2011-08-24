@@ -2,8 +2,6 @@ package com.xdev.bb.game.bubbles.controller
 
 import com.xdev.bb.game.engine.controller.GameController
 import com.xdev.bb.game.engine.listener.GameListener
-import com.xdev.bb.game.bubbles.GameState
-import com.xdev.bb.game.bubbles.entity.Bubble
 import com.xdev.bb.game.bubbles.listener._
 
 /**
@@ -13,6 +11,8 @@ import com.xdev.bb.game.bubbles.listener._
 object BubbleBreakersController extends GameController {
 
   override def listeners = List(GameRunListener, GameMenuListener, GameLoadingListener, GameScoresListener)
+
+  var currentLevel = 100
 
   private object GameState {
       val GAME_RUN: Int = 1

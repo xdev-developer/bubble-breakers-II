@@ -10,7 +10,7 @@ import java.awt.event.{MouseEvent, KeyEvent}
 
 object GameScoresListener extends GameListener {
   def init(g: Graphics2D, size: (Int, Int)) = null
-  def update(delta: Long) = null
+  def update(delta: Double) = null
   def render(g: Graphics2D, size: (Int, Int)) = {    }
   def keyPressed(e: KeyEvent) = null
   def mouseClicked(e: MouseEvent) = null
