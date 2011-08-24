@@ -34,6 +34,7 @@ object GameRunListener extends GameListener {
   }
 
   def update(delta: Double) {
+   bubbles = bubbles.filterNot(_.died)
    bubbles.foreach(_.update(delta))
   }
 
@@ -78,6 +79,14 @@ object GameRunListener extends GameListener {
     }
   }
 
-  def mouseClicked(e: MouseEvent) {}
-  def mouseMoved(e: MouseEvent) {}
+  def mouseClicked(e: MouseEvent) {
   }
+
+  def findBubblesPath(head: Bubble) {
+
+  }
+
+  def mouseMoved(e: MouseEvent) {
+    bubbles.foreach(_.handleMouseMove(e))
+  }
+}
