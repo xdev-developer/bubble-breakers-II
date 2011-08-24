@@ -7,5 +7,6 @@ import com.xdev.bb.game.engine.listener.GameListener
  */
 
 trait GameController {
+  def listeners : List[GameListener]
   def gameListener(): Option[GameListener]
 }

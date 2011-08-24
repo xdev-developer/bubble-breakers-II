@@ -11,6 +11,7 @@ import com.xdev.bb.game.engine.manager.ResourceManager
 
 object BubbleBreakers {
   def main(args: Array[String]){
+    System.setProperty("sun.java2d.opengl", "true")
     ResourceManager.loadImages("/images/")
     val window = new GameWindow(BubbleBreakersController)
     window.createAndShowGUI(Configuration.title, new Dimension(Configuration.width, Configuration.height))

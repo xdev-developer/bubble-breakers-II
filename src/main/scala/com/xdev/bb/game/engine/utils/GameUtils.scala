@@ -1,8 +1,8 @@
 package com.xdev.bb.game.engine.utils
 
-import java.awt.{Font, Graphics2D}
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
+import java.awt.{RenderingHints, Font, Graphics2D}
 
 /**
  * Created by xdev 20.08.11 at 0:02
@@ -22,4 +22,11 @@ object GameUtils {
     ImageIO.read(getClass.getResourceAsStream(path))
   }
 
+  def hiQuality(g: Graphics2D, render : () => Unit){
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+    render()
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF)
+    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED)
+  }
 }

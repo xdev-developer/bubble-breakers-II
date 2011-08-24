@@ -37,6 +37,7 @@ import java.awt.event.MouseEvent
       g.setColor(if(selected) {Color.BLACK} else Color.GRAY)
       g.drawString(text, textX, textY)
 
+      g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF)
       g.setFont(defaultFont)
       g.setColor(defaultColor)
     }

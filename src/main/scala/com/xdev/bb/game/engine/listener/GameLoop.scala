@@ -32,14 +32,14 @@ class GameLoop(controller: GameController) extends Canvas {
           val width: Int = getSize.getWidth.toInt
           val height: Int = getSize.getHeight.toInt
 
-          val view: GameListener = controller.gameListener().get
-          if(!view.isInitialized){
-            view.init(graphics, (width, height))
-            view.isInitialized = true
+          val listener: GameListener = controller.gameListener().get
+          if(!listener.isInitialized){
+            listener.init(graphics, (width, height))
+            listener.isInitialized = true
           }
-          view.update(loopTime)
+          listener.update(loopTime)
           graphics.clearRect(0, 0, width, height)
-          view.render(graphics, (width, height))
+          listener.render(graphics, (width, height))
 
           if(SHOW_FPS){
             graphics.drawString("FPS : " + FPSCounter.getFPS + " delta : " + loopTime, 5, (height - 5.0f).toFloat)
@@ -52,11 +52,21 @@ class GameLoop(controller: GameController) extends Canvas {
     }
   }
 
+  private def initControllerListeners() {
+    val strategy: BufferStrategy = getBufferStrategy
+    val graphics : Graphics2D = strategy.getDrawGraphics.asInstanceOf[Graphics2D]
+
+    val width: Int = getSize.getWidth.toInt
+    val height: Int = getSize.getHeight.toInt
+    controller.listeners.foreach(_.init(graphics, (width, height)))
+  }
+
   def run() {
     addMouseListener(MouseProcessor)
     addMouseMotionListener(MouseProcessor)
     addKeyListener(KeyboardProcessor)
     createBufferStrategy(2)
+    initControllerListeners()
     new Thread(Loop).start()
   }
 

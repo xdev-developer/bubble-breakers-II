@@ -8,7 +8,7 @@ import java.awt.event.{MouseEvent, KeyEvent}
  * Created by xdev 18.08.11 at 3:17
  */
 
-object GamScoresListener extends GameListener {
+object GameScoresListener extends GameListener {
   def init(g: Graphics2D, size: (Int, Int)) = null
   def update(delta: Long) = null
   def render(g: Graphics2D, size: (Int, Int)) = {    }

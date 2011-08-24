@@ -22,7 +22,9 @@ object GameMenuListener extends GameListener {
   def render(g: Graphics2D, size: (Int, Int)) {menuBar.render(g, size)}
   def mouseClicked(e: MouseEvent) { menuBar.processMouseClick(e)}
   def mouseMoved(e: MouseEvent) { menuBar.processMouseMove(e)}
-  def keyPressed(e: KeyEvent) {}
+  def keyPressed(e: KeyEvent) {
+    if (e.getKeyCode == KeyEvent.VK_ESCAPE) BubbleBreakersController.exitGame()
+  }
   def init(g: Graphics2D, size: (Int, Int)) {}
   def update(delta: Long) {}
 }
