@@ -3,12 +3,12 @@ package com.xdev.bb.game.bubbles.listener
 import com.xdev.bb.game.engine.listener.GameListener
 import java.awt.event.{MouseEvent, KeyEvent}
 import com.xdev.bb.game.engine.manager.ResourceManager
-import com.xdev.bb.game.bubbles.entity.Bubble
 import com.xdev.bb.game.bubbles.controller.BubbleBreakersController
 import java.awt.{Color, Graphics2D}
 import com.xdev.bb.game.engine.utils.GameUtils._
 import java.awt.image.BufferedImage
 import util.Random
+import com.xdev.bb.game.bubbles.entity.{Bubbles, Bubble}
 
 /**
  * Created by xdev 18.08.11 at 3:16
@@ -16,9 +16,6 @@ import util.Random
 
 object GameRunListener extends GameListener {
 
-  var rows: Int = 0
-  var columns: Int = 0
-  var bubbles: List[Bubble] = List()
   lazy val bubblesImages  = Map[Int, BufferedImage](0 -> ResourceManager.images("1.png"),
                                                       1 -> ResourceManager.images("2.png"),
                                                       2 -> ResourceManager.images("3.png"),
@@ -27,21 +24,23 @@ object GameRunListener extends GameListener {
                                                       5 -> ResourceManager.images("6.png"),
                                                       6 -> ResourceManager.images("7.png"))
 
+  val MIN_BUBBLES_IN_SELECTION = 2
+  val BUBBLES_START_ROW = 4
+
   def init(g: Graphics2D, size: (Int, Int)) {
     val (w, h) = size
-    columns = w / Bubble.size
-    rows = h / Bubble.size
+    Bubbles.columns = w / Bubble.size
+    Bubbles.rows = h / Bubble.size
   }
 
   def update(delta: Double) {
-   bubbles = bubbles.filterNot(_.died)
-   bubbles.foreach(_.update(delta))
+   Bubbles.filter(!_.died).foreach(_.update(delta))
   }
 
   def render(g: Graphics2D, size: (Int, Int)) {
     hiQuality(g , () => {
       renderGreed(g)
-      bubbles.foreach(_.render(g))
+      Bubbles.filter(!_.died).foreach(_.render(g))
     })
   }
 
@@ -52,13 +51,14 @@ object GameRunListener extends GameListener {
     }else {
        BubbleBreakersController.currentLevel + 1
     }
-
-    bubbles = List()
-    for(y <- 0 until rows; x <- 0 until columns){
+    Bubbles.clear()
+    for(y <- 0 until Bubbles.rows; x <- 0 until Bubbles.columns){
       val bubbleType = rand.nextInt(maxBubblesInLevel)
-      bubbles = new Bubble(bubblesImages(bubbleType), (x * Bubble.size, y * Bubble.size), bubbleType) :: bubbles
+      val bubble = new Bubble(bubblesImages(bubbleType), (x * Bubble.size, y * Bubble.size), bubbleType)
+      //Clear first 4 rows
+      if(y < BUBBLES_START_ROW) bubble.died = true
+      Bubbles += bubble
     }
-    bubbles = bubbles.reverse
   }
 
   /**
@@ -68,7 +68,7 @@ object GameRunListener extends GameListener {
   private def renderGreed(g: Graphics2D) {
     val prevColor = g.getColor
     g.setColor(Color.GRAY)
-    for(x <- 0 until columns; y <- 0 until rows){
+    for(x <- 0 until Bubbles.columns; y <- 0 until Bubbles.rows){
       g.drawRect(x * Bubble.size, y * Bubble.size, Bubble.size, Bubble.size)
     }
     g.setColor(prevColor)
@@ -82,26 +82,26 @@ object GameRunListener extends GameListener {
   }
 
   def mouseClicked(e: MouseEvent) {
-    bubbles.foreach(b => b.marked = false) // unmark all bubbles
-    bubbles.foreach(_.handleMouseClick(e))
-    val markedBubbles = bubbles.filter(_.marked)
-    if(markedBubbles.nonEmpty){
-      val head = markedBubbles.head
-      findBubblesPath(head)
+    Bubbles.foreach(b => b.selected = false)  // deselect all bubbles
+    Bubbles.foreach(_.handleMouseMove(e))
+    val selectedBubbles = Bubbles.filter(_.selected)
+    if(selectedBubbles.nonEmpty){
+      val bubblesSelection = Bubbles.getBubblesSelectionPath(selectedBubbles.head)
+      if(bubblesSelection.size >= MIN_BUBBLES_IN_SELECTION) {
+        bubblesSelection.foreach(b => b.died = true)
+      }
     }
   }
 
-  def findBubblesPath(head: Bubble) {
-    println(head.bubbleType, head.row, head.column)
-    val row = head.row
-    val column = head.column
-    val index = (row * columns) + column
-    val b = bubbles(index)
-    println(b.bubbleType, b.row, b.column)
-  }
-
   def mouseMoved(e: MouseEvent) {
-    bubbles.foreach(b => b.selected = false)  // deselect all bubbles
-    bubbles.foreach(_.handleMouseMove(e))
+    Bubbles.foreach(b => b.selected = false)  // deselect all bubbles
+    Bubbles.foreach(_.handleMouseMove(e))
+    val selectedBubbles = Bubbles.filter(_.selected)
+    if(selectedBubbles.nonEmpty){
+     val bubblesSelection = Bubbles.getBubblesSelectionPath(selectedBubbles.head)
+      if(bubblesSelection.size >= MIN_BUBBLES_IN_SELECTION) {
+        bubblesSelection.foreach(b => b.selected = true)
+      }
+    }
   }
 }

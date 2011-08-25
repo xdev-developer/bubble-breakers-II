@@ -3,8 +3,8 @@ package com.xdev.bb.game.bubbles.entity
 import java.awt.image.BufferedImage
 import java.awt.geom.AffineTransform
 import java.awt.event.MouseEvent
-import java.awt.{Rectangle, Graphics2D}
 import com.xdev.bb.game.engine.listener.MouseHandler
+import java.awt.{Color, Rectangle, Graphics2D}
 
 /**
  * Created by xdev 20.08.11 at 1:02
@@ -27,6 +27,10 @@ case class Bubble(image: BufferedImage, pos: (Int, Int), bubbleType: Int) extend
 
   def render(g: Graphics2D){
     boundingBox.setBounds(x, y, Bubble.size, Bubble.size)
+    if(marked){
+      g.setColor(Color.red)
+      g.fillOval(x, y, 10, 10)
+    }
     if(selected) {
       val at: AffineTransform = new AffineTransform
       at.translate(x, y)
@@ -39,7 +43,7 @@ case class Bubble(image: BufferedImage, pos: (Int, Int), bubbleType: Int) extend
   }
 
   def mouseClicked(e: MouseEvent) {marked = true}
-  def mouseMoved(e: MouseEvent) { selected = true }
+  def mouseMoved(e: MouseEvent) {selected = true}
   def getBounds: Rectangle = boundingBox
 
   def row: Int = y / Bubble.size

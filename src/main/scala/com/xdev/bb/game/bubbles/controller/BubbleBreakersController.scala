@@ -12,7 +12,7 @@ object BubbleBreakersController extends GameController {
 
   override def listeners = List(GameRunListener, GameMenuListener, GameLoadingListener, GameScoresListener)
 
-  var currentLevel = 100
+  var currentLevel = 1
 
   private object GameState {
       val GAME_RUN: Int = 1
