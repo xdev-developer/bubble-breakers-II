@@ -16,8 +16,8 @@ import util.Random
 
 object GameRunListener extends GameListener {
 
-  var widthInGreed: Int = 0
-  var heightInGreed: Int = 0
+  var rows: Int = 0
+  var columns: Int = 0
   var bubbles: List[Bubble] = List()
   lazy val bubblesImages  = Map[Int, BufferedImage](0 -> ResourceManager.images("1.png"),
                                                       1 -> ResourceManager.images("2.png"),
@@ -29,8 +29,8 @@ object GameRunListener extends GameListener {
 
   def init(g: Graphics2D, size: (Int, Int)) {
     val (w, h) = size
-    widthInGreed = w / Bubble.size
-    heightInGreed = h / Bubble.size
+    columns = w / Bubble.size
+    rows = h / Bubble.size
   }
 
   def update(delta: Double) {
@@ -54,9 +54,11 @@ object GameRunListener extends GameListener {
     }
 
     bubbles = List()
-    for(x <- 0 until widthInGreed; y <- 4 until heightInGreed){
-      bubbles = new Bubble(bubblesImages(rand.nextInt(maxBubblesInLevel)), (x * Bubble.size, y * Bubble.size)) :: bubbles
+    for(y <- 0 until rows; x <- 0 until columns){
+      val bubbleType = rand.nextInt(maxBubblesInLevel)
+      bubbles = new Bubble(bubblesImages(bubbleType), (x * Bubble.size, y * Bubble.size), bubbleType) :: bubbles
     }
+    bubbles = bubbles.reverse
   }
 
   /**
@@ -66,7 +68,7 @@ object GameRunListener extends GameListener {
   private def renderGreed(g: Graphics2D) {
     val prevColor = g.getColor
     g.setColor(Color.GRAY)
-    for(x <- 0 until widthInGreed; y <- 0 until heightInGreed){
+    for(x <- 0 until columns; y <- 0 until rows){
       g.drawRect(x * Bubble.size, y * Bubble.size, Bubble.size, Bubble.size)
     }
     g.setColor(prevColor)
@@ -80,13 +82,26 @@ object GameRunListener extends GameListener {
   }
 
   def mouseClicked(e: MouseEvent) {
+    bubbles.foreach(b => b.marked = false) // unmark all bubbles
+    bubbles.foreach(_.handleMouseClick(e))
+    val markedBubbles = bubbles.filter(_.marked)
+    if(markedBubbles.nonEmpty){
+      val head = markedBubbles.head
+      findBubblesPath(head)
+    }
   }
 
   def findBubblesPath(head: Bubble) {
-
+    println(head.bubbleType, head.row, head.column)
+    val row = head.row
+    val column = head.column
+    val index = (row * columns) + column
+    val b = bubbles(index)
+    println(b.bubbleType, b.row, b.column)
   }
 
   def mouseMoved(e: MouseEvent) {
+    bubbles.foreach(b => b.selected = false)  // deselect all bubbles
     bubbles.foreach(_.handleMouseMove(e))
   }
 }

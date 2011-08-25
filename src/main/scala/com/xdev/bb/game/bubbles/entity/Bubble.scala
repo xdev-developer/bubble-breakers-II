@@ -10,17 +10,19 @@ import com.xdev.bb.game.engine.listener.MouseHandler
  * Created by xdev 20.08.11 at 1:02
  */
 
-case class Bubble(image: BufferedImage, pos: (Int, Int)) extends MouseHandler {
+case class Bubble(image: BufferedImage, pos: (Int, Int), bubbleType: Int) extends MouseHandler {
   var (x, y) = pos
   var selected = false
+  var marked = false
   var died = false
   private var rotateAngle = 0.0
   private val theta = math.Pi / 180.0
   private val halfWidth, halfHeight = Bubble.size / 2
   private val boundingBox = new Rectangle()
+  private val rotationSpeed = 700
 
   def update(delta: Double) {
-    rotateAngle += (700 * delta) / 1000
+    rotateAngle += rotationSpeed * (delta/ 1000)
   }
 
   def render(g: Graphics2D){
@@ -36,14 +38,12 @@ case class Bubble(image: BufferedImage, pos: (Int, Int)) extends MouseHandler {
     }
   }
 
-  def mouseClicked(e: MouseEvent) {
-  }
-
-  def mouseMoved(e: MouseEvent) {
-    selected = true
-  }
-
+  def mouseClicked(e: MouseEvent) {marked = true}
+  def mouseMoved(e: MouseEvent) { selected = true }
   def getBounds: Rectangle = boundingBox
+
+  def row: Int = y / Bubble.size
+  def column: Int = x / Bubble.size
 }
 
 object Bubble {
