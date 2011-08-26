@@ -34,8 +34,8 @@ object BubbleBreakersController extends GameController {
 
   def newGame() {
     gameState = GameState.GAME_LOADING
-    Thread.sleep(1000) // For fun !
     GameRunListener.initGameObjects()
+    Thread.sleep(100) // For fun !
     gameState = GameState.GAME_RUN
   }
 

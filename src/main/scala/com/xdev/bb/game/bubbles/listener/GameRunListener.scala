@@ -82,9 +82,9 @@ object GameRunListener extends GameListener {
   }
 
   def mouseClicked(e: MouseEvent) {
-    Bubbles.foreach(b => b.selected = false)  // deselect all bubbles
+    Bubbles.foreach(b => {b.selected = false; b.marked = false})  // deselect all bubbles
     Bubbles.foreach(_.handleMouseMove(e))
-    val selectedBubbles = Bubbles.filter(_.selected)
+    val selectedBubbles = Bubbles.filter(_.marked)
     if(selectedBubbles.nonEmpty){
       val bubblesSelection = Bubbles.getBubblesSelectionPath(selectedBubbles.head)
       if(bubblesSelection.size >= MIN_BUBBLES_IN_SELECTION) {
@@ -94,9 +94,9 @@ object GameRunListener extends GameListener {
   }
 
   def mouseMoved(e: MouseEvent) {
-    Bubbles.foreach(b => b.selected = false)  // deselect all bubbles
+    Bubbles.foreach(b => {b.selected = false; b.marked = false})  // deselect all bubbles
     Bubbles.foreach(_.handleMouseMove(e))
-    val selectedBubbles = Bubbles.filter(_.selected)
+    val selectedBubbles = Bubbles.filter(_.marked)
     if(selectedBubbles.nonEmpty){
      val bubblesSelection = Bubbles.getBubblesSelectionPath(selectedBubbles.head)
       if(bubblesSelection.size >= MIN_BUBBLES_IN_SELECTION) {

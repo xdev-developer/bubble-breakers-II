@@ -56,11 +56,11 @@ class GameLoop(controller: GameController) extends Canvas {
   }
 
   def run() {
+    createBufferStrategy(2)
+    initControllerListeners()
     addMouseListener(MouseProcessor)
     addMouseMotionListener(MouseProcessor)
     addKeyListener(KeyboardProcessor)
-    createBufferStrategy(2)
-    initControllerListeners()
     new Thread(Loop).start()
   }
 

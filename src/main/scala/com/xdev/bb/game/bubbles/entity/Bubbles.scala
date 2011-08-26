@@ -29,8 +29,8 @@ object Bubbles {
   def clear(){ init(rows, columns)}
 
   def getBubble(row: Int, column: Int): Option[Bubble] = {
-    if(row < 0 || row >= bubbles.size) return None
-    if(column < 0 || column >= bubbles(0).size) return None
+    if(row < 0 || row >= rows) return None
+    if(column < 0 || column >= columns) return None
 
     return Some(bubbles(row)(column))
   }
