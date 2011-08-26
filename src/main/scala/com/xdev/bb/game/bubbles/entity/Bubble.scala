@@ -22,11 +22,20 @@ case class Bubble(image: BufferedImage, pos: (Int, Int), bubbleType: Int) extend
   private val rotationSpeed = 700
 
   def update(delta: Double) {
+    if(died) return
     rotateAngle += rotationSpeed * (delta/ 1000)
   }
 
   def render(g: Graphics2D){
+    if(died) return
     boundingBox.setBounds(x, y, Bubble.size, Bubble.size)
+    if(died){
+      val defColor = g.getColor
+      g.setColor(Color.RED)
+      g.fillOval(x, y, 30, 30)
+      g.setColor(defColor)
+      return
+    }
     if(selected) {
       val at: AffineTransform = new AffineTransform
       at.translate(x, y)
@@ -38,8 +47,14 @@ case class Bubble(image: BufferedImage, pos: (Int, Int), bubbleType: Int) extend
     }
   }
 
-  def mouseClicked(e: MouseEvent) {marked = true}
-  def mouseMoved(e: MouseEvent) {marked = true}
+  def mouseClicked(e: MouseEvent) {
+    if(died) return
+    marked = true
+  }
+  def mouseMoved(e: MouseEvent) {
+    if(died) return
+    marked = true
+  }
   def getBounds: Rectangle = boundingBox
 
   def row: Int = y / Bubble.size

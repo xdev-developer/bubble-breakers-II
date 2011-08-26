@@ -35,12 +35,40 @@ object GameRunListener extends GameListener {
 
   def update(delta: Double) {
    Bubbles.filter(!_.died).foreach(_.update(delta))
+    updateBubblesPositions()
+  }
+
+  def updateBubblesPositions(){
+    for(c <- 0 until Bubbles.columns; r <- 0 until Bubbles.rows){
+      val nextOpt = Bubbles.getBubble(r + 1, c)
+      if(nextOpt.isDefined){
+        if(nextOpt.get.died){
+          val next = nextOpt.get
+          val currentOpt = Bubbles.getBubble(r, c)
+          if(currentOpt.isDefined){
+            val current = currentOpt.get
+            val pos : (Int, Int) = (current.x, current.y)
+            current.x = next.x
+            current.y = next.y
+            next.x = pos._1
+            next.y = pos._2
+            Bubbles.set(r, c, next)
+            Bubbles.set(r + 1, c, current)
+          }
+        }
+      }
+    }
+
+    for(c <- 0 until Bubbles.columns; r <- 0 until Bubbles.rows){
+
+    }
   }
 
   def render(g: Graphics2D, size: (Int, Int)) {
     hiQuality(g , () => {
       renderGreed(g)
-      Bubbles.filter(!_.died).foreach(_.render(g))
+      //Bubbles.filter(!_.died).foreach(_.render(g))
+      Bubbles.foreach(_.render(g))
     })
   }
 
