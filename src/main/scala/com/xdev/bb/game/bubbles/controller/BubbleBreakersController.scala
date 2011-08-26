@@ -66,7 +66,7 @@ object BubbleBreakersController extends GameController {
     gameState = GameState.GAME_LOADING
     currentLevel = level
     GameRunListener.initGameObjects()
-    Thread.sleep(100) // For fun !
+    Thread.sleep(500) // For fun !
     gameState = GameState.GAME_RUN
     return true
   }
