@@ -28,21 +28,22 @@ object GameRunListener extends GameListener {
   val BUBBLES_START_ROW = 4
 
   def init(g: Graphics2D, size: (Int, Int)) {
-    println("init")
     val (w, h) = size
     Bubbles.init(math.round(h / Bubble.size).toInt, math.round(w / Bubble.size).toInt)
   }
 
   def update(delta: Double) {
    Bubbles.filter(!_.died).foreach(_.update(delta))
-    updateBubblesPositions()
+   updateBubblesPositions()
+   if(Bubbles.filter(!_.died).isEmpty) {
+     BubbleBreakersController.levelComplected()
+   }
   }
 
   def updateBubblesPositions(){
     for(c <- 0 until Bubbles.columns; r <- 0 until Bubbles.rows){
       val nextOpt = Bubbles.getBubble(r + 1, c)
-      if(nextOpt.isDefined){
-        if(nextOpt.get.died){
+      if(nextOpt.isDefined && nextOpt.get.died){
           val next = nextOpt.get
           val currentOpt = Bubbles.getBubble(r, c)
           if(currentOpt.isDefined){
@@ -55,12 +56,30 @@ object GameRunListener extends GameListener {
             Bubbles.set(r, c, next)
             Bubbles.set(r + 1, c, current)
           }
-        }
       }
     }
 
-    for(c <- 0 until Bubbles.columns; r <- 0 until Bubbles.rows){
-
+    for(c <- 0 until Bubbles.columns){
+      val currentOpt = Bubbles.getBubble(Bubbles.rows - 1, c)
+      if(currentOpt.isDefined && currentOpt.get.died){ // We found empty column
+        for(r <- 0 until Bubbles.rows){
+          val rightBubbleOpt = Bubbles.getBubble(r, c + 1)
+          if(rightBubbleOpt.isDefined){
+            val leftBubbleOpt = Bubbles.getBubble(r, c)
+            if(leftBubbleOpt.isDefined){
+              val left = leftBubbleOpt.get
+              val right = rightBubbleOpt.get
+              val pos : (Int, Int) = (left.x, left.y)
+              left.x = right.x
+              left.y = right.y
+              right.x = pos._1
+              right.y = pos._2
+              Bubbles.set(r, c + 1, left)
+              Bubbles.set(r, c, right)
+            }
+          }
+        }
+      }
     }
   }
 
@@ -73,7 +92,6 @@ object GameRunListener extends GameListener {
   }
 
   def  initGameObjects() {
-    println("init game objects")
     val rand = new Random(System.currentTimeMillis)
     val maxBubblesInLevel = if(BubbleBreakersController.currentLevel >= bubblesImages.size) {
       bubblesImages.size

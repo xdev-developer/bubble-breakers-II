@@ -13,6 +13,7 @@ object BubbleBreakersController extends GameController {
   override def listeners = List(GameRunListener, GameMenuListener, GameLoadingListener, GameScoresListener)
 
   var currentLevel = 1
+  private var gameCreated = false
 
   private object GameState {
       val GAME_RUN: Int = 1
@@ -33,25 +34,40 @@ object BubbleBreakersController extends GameController {
   }
 
   def newGame() {
-    gameState = GameState.GAME_LOADING
-    GameRunListener.initGameObjects()
-    Thread.sleep(100) // For fun !
-    gameState = GameState.GAME_RUN
+    gameCreated = createGame(1)
+  }
+
+  def createNewLevel(){
+    gameCreated = createGame(currentLevel + 1)
+  }
+
+  def levelComplected(){
+    gameState = GameState.GAME_SCORES
   }
 
   def continueGame() {
-    gameState = GameState.GAME_RUN
+    if(gameCreated)
+      gameState = GameState.GAME_RUN
   }
 
   def restartGame() {
-    gameState = GameState.GAME_RUN
+    gameCreated = createGame(currentLevel)
+  }
+
+  def showMenu(){
+    gameState = GameState.GAME_MENU
   }
 
   def exitGame() {
     sys.exit(0)
   }
 
-  def showMenu(){
-    gameState = GameState.GAME_MENU
+  private def createGame(level: Int): Boolean = {
+    gameState = GameState.GAME_LOADING
+    currentLevel = level
+    GameRunListener.initGameObjects()
+    Thread.sleep(100) // For fun !
+    gameState = GameState.GAME_RUN
+    return true
   }
 }
