@@ -28,6 +28,7 @@ object Bubbles {
   def getBubble(row: Int, column: Int): Option[Bubble] = {
     if(row < 0 || row >= rows || column < 0 || column >= columns) return None
     val index = (row * columns) + column
+    if(index >= bubbles.size) return None
     Some(bubbles(index))
   }
 

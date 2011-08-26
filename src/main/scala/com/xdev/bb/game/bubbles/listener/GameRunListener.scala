@@ -55,7 +55,6 @@ object GameRunListener extends GameListener {
     for(y <- 0 until Bubbles.rows; x <- 0 until Bubbles.columns){
       val bubbleType = rand.nextInt(maxBubblesInLevel)
       val bubble = new Bubble(bubblesImages(bubbleType), (x * Bubble.size, y * Bubble.size), bubbleType)
-      //Clear first 4 rows
       if(y < BUBBLES_START_ROW) bubble.died = true
       Bubbles += bubble
     }
