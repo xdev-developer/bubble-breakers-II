@@ -20,7 +20,7 @@ class GameWindow(controller: GameController) extends JFrame{
   def createAndShowGUI(title: String, size: Dimension) {
     setTitle(title)
     setSize(size)
-    setResizable(true)
+    setResizable(false)
     setLocationRelativeTo(null)
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
 

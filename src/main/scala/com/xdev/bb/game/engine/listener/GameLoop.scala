@@ -32,14 +32,11 @@ class GameLoop(controller: GameController) extends Canvas {
           val height: Int = getSize.getHeight.toInt
 
           val listener: GameListener = controller.gameListener().get
-          if(!listener.isInitialized){
-            listener.init(graphics, (width, height))
-            listener.isInitialized = true
-          }
+          listener.initListener(graphics, (width, height))
+
           listener.update(loopTime)
           graphics.clearRect(0, 0, width, height)
           listener.render(graphics, (width, height))
-
           if(SHOW_FPS){
             graphics.drawString("FPS : " + FPSCounter.getFPS + " delta : " + loopTime, 5, (height - 5.0f).toFloat)
           }
@@ -53,10 +50,9 @@ class GameLoop(controller: GameController) extends Canvas {
   private def initControllerListeners() {
     val strategy: BufferStrategy = getBufferStrategy
     val graphics : Graphics2D = strategy.getDrawGraphics.asInstanceOf[Graphics2D]
-
     val width: Int = getSize.getWidth.toInt
     val height: Int = getSize.getHeight.toInt
-    controller.listeners.foreach(_.init(graphics, (width, height)))
+    controller.listeners.foreach(_.initListener(graphics, (width, height)))
   }
 
   def run() {
@@ -72,15 +68,13 @@ class GameLoop(controller: GameController) extends Canvas {
   object MouseProcessor extends MouseAdapter with MouseMotionListener {
     override def mouseClicked(e: MouseEvent) {
       if(controller.gameListener().isDefined){
-        if(controller.gameListener().get.isInitialized)
-          controller.gameListener().get.mouseClicked(e)
+          controller.gameListener().get.handleMouseClicked(e)
       }
     }
 
     override def mouseMoved(e: MouseEvent) {
       if(controller.gameListener().isDefined){
-        if(controller.gameListener().get.isInitialized)
-          controller.gameListener().get.mouseMoved(e)
+          controller.gameListener().get.handleMouseMoved(e)
       }
     }
   }
@@ -88,7 +82,6 @@ class GameLoop(controller: GameController) extends Canvas {
   object KeyboardProcessor extends KeyAdapter {
     override def keyPressed(e: KeyEvent){
       if(controller.gameListener().isDefined){
-        if(controller.gameListener().get.isInitialized)
           controller.gameListener().get.keyPressed(e)
       }
     }

@@ -6,6 +6,6 @@ package com.xdev.bb.game.bubbles
 
 object Configuration {
   val title = "BubbleBreakers II"
-  val width = 800
+  val width = 810
   val height = 600
 }

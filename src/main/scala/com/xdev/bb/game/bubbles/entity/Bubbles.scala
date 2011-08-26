@@ -5,35 +5,38 @@ package com.xdev.bb.game.bubbles.entity
  */
 
 object Bubbles {
-  import collection.mutable.ArrayBuffer
-
   var rows: Int = 0
   var columns: Int = 0
-  private val bubbles = new ArrayBuffer[Bubble]()
+  private var bubbles = Array.ofDim[Bubble](1, 1)
+
+  def init(rows: Int, columns: Int){
+    this.rows = rows
+    this.columns = columns
+    bubbles = Array.ofDim[Bubble](rows, columns)
+  }
 
   def foreach(f: (Bubble) => Unit) {
-    bubbles.foreach(f)
+    bubbles.foreach(_.foreach(f))
   }
 
-  def filter(f: (Bubble) => Boolean): ArrayBuffer[Bubble] = {
-    bubbles.filter(f)
+  def filter(f: (Bubble) => Boolean): List[Bubble] = {
+    var list = List[Bubble]()
+    bubbles.foreach(filtered => {
+      list = list ::: filtered.filter(f).toList
+    })
+    list
   }
-
-  def +=(b: Bubble) : ArrayBuffer[Bubble] = {
-    bubbles += b
-    bubbles
-  }
-  def clear(){ bubbles.clear()}
+  def clear(){ init(rows, columns)}
 
   def getBubble(row: Int, column: Int): Option[Bubble] = {
-    if(row < 0 || row >= rows || column < 0 || column >= columns) return None
-    val index = (row * columns) + column
-    if(index >= bubbles.size) return None
-    Some(bubbles(index))
+    if(row < 0 || row >= bubbles.size) return None
+    if(column < 0 || column >= bubbles(0).size) return None
+
+    return Some(bubbles(row)(column))
   }
 
   def getBubblesSelectionPath(head: Bubble): List[Bubble] = {
-    bubbles.foreach(b => b.marked = false) // unmark all bubbles
+    foreach(b => b.marked = false) // unmark all bubbles
     head.marked = true
     var selection = List[Bubble](head)
     selection = selection ::: findBubbles (head.row, head.column, head.bubbleType)
@@ -60,5 +63,7 @@ object Bubbles {
     selection = selection ::: checkBubbles (row, column - 1) // right
     return selection
   }
+
+  def set(r: Int, c: Int, b: Bubble) = bubbles(r)(c) = b
 
 }

@@ -28,9 +28,9 @@ object GameRunListener extends GameListener {
   val BUBBLES_START_ROW = 4
 
   def init(g: Graphics2D, size: (Int, Int)) {
+    println("init")
     val (w, h) = size
-    Bubbles.columns = w / Bubble.size
-    Bubbles.rows = h / Bubble.size
+    Bubbles.init(math.round(h / Bubble.size).toInt, math.round(w / Bubble.size).toInt)
   }
 
   def update(delta: Double) {
@@ -45,6 +45,7 @@ object GameRunListener extends GameListener {
   }
 
   def  initGameObjects() {
+    println("init game objects")
     val rand = new Random(System.currentTimeMillis)
     val maxBubblesInLevel = if(BubbleBreakersController.currentLevel >= bubblesImages.size) {
       bubblesImages.size
@@ -52,11 +53,11 @@ object GameRunListener extends GameListener {
        BubbleBreakersController.currentLevel + 1
     }
     Bubbles.clear()
-    for(y <- 0 until Bubbles.rows; x <- 0 until Bubbles.columns){
+    for(r <- 0 until Bubbles.rows; c <- 0 until Bubbles.columns){
       val bubbleType = rand.nextInt(maxBubblesInLevel)
-      val bubble = new Bubble(bubblesImages(bubbleType), (x * Bubble.size, y * Bubble.size), bubbleType)
-      if(y < BUBBLES_START_ROW) bubble.died = true
-      Bubbles += bubble
+      val bubble = new Bubble(bubblesImages(bubbleType), (c * Bubble.size, r * Bubble.size), bubbleType)
+      if(r < BUBBLES_START_ROW) bubble.died = true
+      Bubbles.set(r, c, bubble)
     }
   }
 

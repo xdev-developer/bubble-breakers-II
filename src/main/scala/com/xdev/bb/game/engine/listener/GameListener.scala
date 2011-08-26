@@ -8,12 +8,28 @@ import java.awt.event.{KeyEvent, MouseEvent}
  */
 
 abstract class GameListener {
-  var isInitialized: Boolean = false
+  private var isInitialized: Boolean = false
+
+  private [listener] def initListener(g: Graphics2D, size: (Int, Int)) {
+    if (!isInitialized){
+      init(g, size)
+    }
+    isInitialized = true
+  }
+
   def init(g: Graphics2D, size: (Int, Int))
   def update(delta: Double)
   def render(g: Graphics2D, size: (Int, Int))
 
+  private [listener] def  handleMouseMoved(e: MouseEvent){
+    if(isInitialized) {mouseMoved(e)}
+  }
   def mouseMoved(e: MouseEvent)
+
+  private [listener] def handleMouseClicked(e: MouseEvent) {
+    if (isInitialized){mouseClicked(e)}
+  }
   def mouseClicked(e: MouseEvent)
+
   def keyPressed(e: KeyEvent)
 }
