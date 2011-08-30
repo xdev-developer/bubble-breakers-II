@@ -7,6 +7,10 @@ scalaVersion:="2.9.0"
 
 organization:="com.xdev"
 
+seq(sbtassembly.Plugin.assemblySettings: _*)
+
+mainClass:=Some("com.xdev.bb.game.BubbleBreakers")
+
 // fork a new JVM for 'run' and 'test:run'
 fork := true
 
