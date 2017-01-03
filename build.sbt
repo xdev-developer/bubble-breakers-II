@@ -2,12 +2,10 @@ name := "bubble-breakers-II"
 
 version := "1.0"
 
-scalaVersion:="2.9.0"
+scalaVersion:="2.12.1"
 
 
 organization:="com.xdev"
-
-seq(sbtassembly.Plugin.assemblySettings: _*)
 
 mainClass:=Some("com.xdev.bb.game.BubbleBreakers")
 
